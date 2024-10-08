@@ -5,7 +5,7 @@ const axios = require("axios");
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 
-// Function to paginate the products
+
 function paginate(items, currentPage, itemsPerPage) {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -13,7 +13,7 @@ function paginate(items, currentPage, itemsPerPage) {
 }
 
 app.get("/", (req, res) => {
-  const page = parseInt(req.query.page) || 1; // Get the current page from query param or default to 1
+  const page = parseInt(req.query.page) || 1; 
   const itemsPerPage = 10; // Number of items per page
 
   axios
@@ -21,11 +21,8 @@ app.get("/", (req, res) => {
     .then((response) => {
       const products = response.data;
       if (products && products.length > 0) {
-        // Paginate products
         const paginatedProducts = paginate(products, page, itemsPerPage);
         const totalPages = Math.ceil(products.length / itemsPerPage);
-
-        // Render the EJS template with paginated products and page info
         res.render("home", {
           products: paginatedProducts,
           currentPage: page,
